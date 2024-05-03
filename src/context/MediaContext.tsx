@@ -109,8 +109,15 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 				}
 			}
 
-			mediaRecorder.onstop = stopRecording
-			mediaRecorder.stream.oninactive = stopRecording
+			// mediaRecorder.onstop = stopRecording
+			mediaRecorder.stream.addEventListener("oninactive", stopRecording)
+		}
+
+		return () => {
+			mediaRecorder?.stream.removeEventListener(
+				"oninactive",
+				stopRecording
+			)
 		}
 	}, [mediaRecorder, recordedChunks, stopRecording, stream])
 
