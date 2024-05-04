@@ -15,7 +15,7 @@ MediaMaster is a versatile media recording application that allows users to capt
 -   📺 Live preview of recordings
 -   ⏯️ Easy-to-use interface for recording controls, including pause and resume
 -   🛠️ Simple installation process
--   🌐 Cross-platform compatibility
+-   🌐 Cross-Browser Compatibility
 
 ## 🚀 Live Preview
 
@@ -31,7 +31,7 @@ You can view the live preview of the project [here](https://media-master.vercel.
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/<your_username>/MediaMaster.git
+    git clone https://github.com/sahilatahar/MediaMaster.git
     ```
 2. Navigate to the project directory:
     ```bash
@@ -64,7 +64,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 🤝 Acknowledgements
 
-This project was inspired by an repository named [screenREC](https://github.com/heysagnik/screenREC) built with traditional web technologies (Pug, CSS, JavaScript). While the old repository served as inspiration, this project has been rebuilt from scratch using modern technologies, including Next.js, React.js, and Tailwind CSS.
+This project was inspired by an repository named [screenREC](https://github.com/heysagnik/screenREC) built with traditional web technologies (Pug, SCSS, JavaScript). While the old repository served as inspiration, this project has been rebuilt from scratch using modern technologies, including Next.js, React.js, and Tailwind CSS.
 
 ## 📧 Contact Information
 
