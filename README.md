@@ -50,11 +50,6 @@ You can view the live preview of the project [here](https://media-master.vercel.
     http://localhost:3000
     ```
 
-## 🚀 Future Plans
-
--   Add support for video recording.
--   Include options for recording only audio
-
 ## 🌟 Support Us
 
 If you find this helpful or valuable, please consider 🌟 starring the repository. It helps us gain visibility and encourages further development. We appreciate your support!
