@@ -64,10 +64,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 🤝 Acknowledgements
 
-This project was inspired by an older repository built with traditional web technologies (Pug, CSS, JavaScript). While the repository served as inspiration, this project has been rebuilt from scratch using modern technologies, including Next.js, React.js, and Tailwind CSS.
-
-## 🤝 Acknowledgements
-
 This project was inspired by an repository named [screenREC](https://github.com/heysagnik/screenREC) built with traditional web technologies (Pug, CSS, JavaScript). While the old repository served as inspiration, this project has been rebuilt from scratch using modern technologies, including Next.js, React.js, and Tailwind CSS.
 
 ## 📧 Contact Information
