@@ -30,7 +30,7 @@ const RecordingPage: FC = () => {
 
 	return (
 		<main className="max-w-7xl flex flex-col items-center min-h-screen mx-auto p-4 text-center sm:justify-center gap-8">
-			<h1 className="text-3xl sm:text-4xl font-bold pt-8 text-light-text flex gap-4 items-center">
+			<h1 className="text-3xl sm:text-4xl font-bold pt-8 text-light-text flex gap-6 items-end">
 				<Image
 					src="/images/recordedVideo.png"
 					width={0}

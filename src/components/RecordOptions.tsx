@@ -16,7 +16,7 @@ const RecordOptions: FC = () => {
 
 	useEffect(() => {
 		if (recording) {
-			router.push("/recording")
+			router.push("/record-preview")
 		}
 	}, [recording, router])
 
@@ -26,7 +26,7 @@ const RecordOptions: FC = () => {
 		}`
 
 	return (
-		<div className="flex flex-col items-center gap-8 py-4 justify-around">
+		<div className="flex flex-col items-center gap-8 py-4 justify-center">
 			<h2 className="text-xl sm:text-2xl text-light-text">
 				What would you like to record?
 			</h2>
@@ -64,14 +64,12 @@ const RecordOptions: FC = () => {
 					<p className="font-semibold pb-2">Screen Only</p>
 				</div>
 			</div>
-			{!recording && (
-				<button
-					className="bg-primary font-2xl w-full py-4 font-bold text-white rounded-xl"
-					onClick={startRecording}
-				>
-					Start Recording
-				</button>
-			)}
+			<button
+				className="bg-primary font-2xl w-full py-4 font-bold text-white rounded-xl"
+				onClick={startRecording}
+			>
+				Start Recording
+			</button>
 		</div>
 	)
 }

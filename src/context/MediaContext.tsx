@@ -6,21 +6,11 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
+	useRef,
 	useState,
 } from "react"
 import { toast } from "react-hot-toast"
-
-interface MediaContextProps {
-	recording: boolean
-	stream: MediaStream | null
-	startRecording: () => Promise<void>
-	stopRecording: () => void
-	selectedOption: string
-	setSelectedOption: (option: string) => void
-	mediaUrl: string
-	recordingFinish: boolean
-	setRecordingFinish: (value: boolean) => void
-}
+import { MediaContextProps } from "@/types"
 
 const MediaContext = createContext<MediaContextProps | null>(null)
 
@@ -36,24 +26,37 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 	children,
 }): ReactElement => {
 	const [recording, setRecording] = useState<boolean>(false)
-	const [recordingFinish, setRecordingFinish] = useState<boolean>(false)
 	const [stream, setStream] = useState<MediaStream | null>(null)
 	const [selectedOption, setSelectedOption] = useState<string>("")
-	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>()
+	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
+		null
+	)
 	const [recordedChunks, setRecordedChunks] = useState<Blob[]>([])
 	const [mediaUrl, setMediaUrl] = useState<string>("")
+	const recordingFinish = useRef<boolean>(false)
 
 	const openMediaDevices = async (constraints: any) => {
 		try {
+			// Check if getDisplayMedia is supported
+			if (!navigator.mediaDevices.getDisplayMedia) {
+				console.error("getDisplayMedia is not supported on this device")
+				toast.error(
+					"Sorry, your browser does not support screen recording."
+				)
+				return null
+			}
+
 			const stream = await navigator.mediaDevices.getDisplayMedia(
 				constraints
 			)
 			return stream
 		} catch (error: any) {
 			console.error("Error opening media devices", error)
-			if (error.name === "NotAllowedError")
+			if (error.name === "NotAllowedError") {
 				toast.error("Permission denied to use media devices")
-			else toast.error("Unable to use media devices")
+			} else {
+				toast.error("Unable to use media devices")
+			}
 			return null
 		}
 	}
@@ -82,16 +85,23 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 		if (stream != null) {
 			setStream(stream)
 			setRecording(true)
+			setMediaUrl("")
+			recordingFinish.current = false
 		}
 	}
 
 	const stopRecording = useCallback(() => {
-		mediaRecorder?.stop()
+		if (mediaRecorder == null || recordingFinish.current) return
+
+		const isInactive = mediaRecorder.state === "inactive"
+		if (!isInactive) mediaRecorder.stop() // Prevent stop calling on inactive state
+
 		const blob = new Blob(recordedChunks)
 		const url = URL.createObjectURL(blob)
 		setMediaUrl(url)
 		setRecordedChunks([])
 		setRecording(false)
+		recordingFinish.current = true
 		stream?.getTracks().forEach((track) => track.stop())
 	}, [mediaRecorder, recordedChunks, stream])
 
@@ -108,16 +118,10 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 					setRecordedChunks((prevChunks) => [...prevChunks, e.data])
 				}
 			}
-
-			// mediaRecorder.onstop = stopRecording
-			mediaRecorder.stream.addEventListener("oninactive", stopRecording)
-		}
-
-		return () => {
-			mediaRecorder?.stream.removeEventListener(
-				"oninactive",
-				stopRecording
-			)
+			mediaRecorder.onstop = stopRecording
+			{
+				(mediaRecorder.stream as any).oninactive = stopRecording
+			}
 		}
 	}, [mediaRecorder, recordedChunks, stopRecording, stream])
 
@@ -131,8 +135,6 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 				selectedOption,
 				setSelectedOption,
 				mediaUrl,
-				recordingFinish,
-				setRecordingFinish,
 			}}
 		>
 			{children}
