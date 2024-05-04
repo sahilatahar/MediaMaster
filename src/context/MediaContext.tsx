@@ -27,6 +27,8 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 }): ReactElement => {
 	const [recording, setRecording] = useState<boolean>(false)
 	const [stream, setStream] = useState<MediaStream | null>(null)
+	const [screenStream, setScreenStream] = useState<MediaStream | null>(null)
+	const [userStream, setUserStream] = useState<MediaStream | null>(null)
 	const [selectedOption, setSelectedOption] = useState<string>("")
 	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
 		null
@@ -47,12 +49,29 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 				return null
 			}
 
-			const stream = await navigator.mediaDevices.getDisplayMedia(
+			const screenStream = await navigator.mediaDevices.getDisplayMedia(
 				constraints
 			)
-			return stream
+			return screenStream
 		} catch (error: any) {
 			console.error("Error opening media devices", error)
+			if (error.name === "NotAllowedError") {
+				toast.error("Permission denied to use media devices")
+			} else {
+				toast.error("Unable to use media devices")
+			}
+			return null
+		}
+	}
+
+	const openUserMedia = async (constraints: any) => {
+		try {
+			const userStream = await navigator.mediaDevices.getUserMedia(
+				constraints
+			)
+			return userStream
+		} catch (error: any) {
+			console.error("Error opening user media", error)
 			if (error.name === "NotAllowedError") {
 				toast.error("Permission denied to use media devices")
 			} else {
@@ -69,9 +88,13 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 		}
 
 		let constraints: any = { video: true }
+
 		if (selectedOption === "screenOnly") {
 			constraints = { video: { mediaSource: "screen" } }
-		} else if (selectedOption === "screenWithAudio") {
+		} else if (
+			selectedOption === "screenWithAudio" ||
+			selectedOption === "screenWithAudioAndMic"
+		) {
 			constraints = {
 				video: { mediaSource: "screen" },
 				audio: {
@@ -82,13 +105,43 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 			}
 		}
 
-		const stream = await openMediaDevices(constraints)
-		if (stream != null) {
-			setStream(stream)
-			setRecording(true)
-			setMediaUrl("")
-			recordingFinish.current = false
+		const screenStream = await openMediaDevices(constraints)
+
+		if (selectedOption === "screenWithAudioAndMic") {
+			const userStream = await openUserMedia({ audio: true })
+			if (userStream != null) {
+				setUserStream(userStream)
+
+				if (screenStream == null) return
+
+				// Merge screen and mic audio tracks
+				const micAudioTracks = userStream.getAudioTracks()[0]
+				const screenAudioTrack = screenStream?.getAudioTracks()[0]
+
+				const stream = new MediaStream()
+
+				// Add mic audio track
+				stream.addTrack(micAudioTracks)
+
+				// Add screen audio track
+				if (screenAudioTrack) stream.addTrack(screenAudioTrack)
+
+				screenStream.getVideoTracks().forEach((videoTrack) => {
+					stream.addTrack(videoTrack)
+				})
+
+				// Set the new stream which contains both screen and mic audio
+				setStream(stream)
+			}
+		} else {
+			// Set the screen stream if no mic audio is required
+			setScreenStream(screenStream)
+			setStream(screenStream)
 		}
+
+		setRecording(true)
+		setMediaUrl("")
+		recordingFinish.current = false
 	}
 
 	const pauseRecording = () => {
@@ -106,8 +159,9 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 	const stopRecording = useCallback(() => {
 		if (mediaRecorder == null || recordingFinish.current) return
 
+		// Prevent to call stop multiple times
 		const isInactive = mediaRecorder.state === "inactive"
-		if (!isInactive) mediaRecorder.stop() // Prevent stop calling on inactive state
+		if (!isInactive) mediaRecorder.stop()
 
 		const blob = new Blob(recordedChunks)
 		const url = URL.createObjectURL(blob)
@@ -133,7 +187,7 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 			}
 			mediaRecorder.onstop = stopRecording
 			{
-				(mediaRecorder.stream as any).oninactive = stopRecording
+				;(mediaRecorder.stream as any).oninactive = stopRecording
 			}
 		}
 	}, [mediaRecorder, recordedChunks, stopRecording, stream])

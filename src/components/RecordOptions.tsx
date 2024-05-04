@@ -26,18 +26,18 @@ const RecordOptions: FC = () => {
 		}`
 
 	return (
-		<div className="flex flex-col items-center gap-8 py-4 justify-center">
+		<div className="flex flex-col items-center gap-8 py-4 justify-center w-full">
 			<h2 className="text-xl sm:text-2xl text-light-text">
 				What would you like to record?
 			</h2>
-			<div className="grid grid-cols-1 xs:grid-cols-2 xs:gap-8 w-full">
+			<div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 xs:gap-8 w-full sm:w-auto">
 				<div
 					className={optionClassNames("screenWithAudio")}
 					onClick={handleOptionClick}
 					data-name="screenWithAudio"
 				>
 					<Image
-						src="/images/screen.png"
+						src="/images/screenWithAudio.png"
 						width={0}
 						height={0}
 						sizes="100vw"
@@ -63,9 +63,25 @@ const RecordOptions: FC = () => {
 					/>
 					<p className="font-semibold pb-2">Screen Only</p>
 				</div>
+				<div
+					className={optionClassNames("screenWithAudioAndMic")}
+					onClick={handleOptionClick}
+					data-name="screenWithAudioAndMic"
+				>
+					<Image
+						src="/images/screenWithAudioAndMic.png"
+						width={0}
+						height={0}
+						sizes="100vw"
+						alt="Record Screen with audio and mic"
+						className="w-2/3"
+						priority
+					/>
+					<p className="font-semibold pb-2">Screen & Audio + Mic</p>
+				</div>
 			</div>
 			<button
-				className="bg-primary font-2xl w-full py-3 font-bold text-white rounded-xl"
+				className="bg-primary font-2xl w-full sm:w-1/2 py-3 font-bold text-white rounded-xl"
 				onClick={startRecording}
 			>
 				Start Recording

@@ -12,10 +12,10 @@ const config: Config = {
 				primary: "#9292f6",
 				"light-text": "#192033",
 				danger: "#ff5454",
-				warning: "#e8c03a"
+				warning: "#f4b952",
 			},
 			screens: {
-				xs: "475px",
+				xs: "400px",
 			},
 		},
 	},
