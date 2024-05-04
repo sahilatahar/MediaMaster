@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎬 MediaMaster
 
-## Getting Started
+![Project Image](preview.png)
 
-First, run the development server:
+## 📝 Description
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+MediaMaster is a versatile media recording application that allows users to capture screen activity, audio input, and more. Whether you're recording presentations, tutorials, or gameplay, MediaMaster provides intuitive features for seamless recording
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔮 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   🖥️ Screen recording with options:
+    -   🖥️ Screen only
+    -   🔊 Screen with system audio
+    -   🎙️ Screen with system audio + microphone
+-   📺 Live preview of recordings
+-   ⏯️ Easy-to-use interface for recording controls, including pause and resume
+-   🛠️ Simple installation process
+-   🌐 Cross-platform compatibility
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🚀 Live Preview
 
-## Learn More
+You can view the live preview of the project [here](https://media-master.vercel.app).
 
-To learn more about Next.js, take a look at the following resources:
+## 💻 Technologies Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   Next.js
+-   Tailwind CSS
+-   MediaStream API
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## ⚙️ Installation
 
-## Deploy on Vercel
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/<your_username>/MediaMaster.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd MediaMaster
+    ```
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
+4. Start the application:
+    ```
+    npm run dev
+    ```
+5. Open the application in your browser:
+    ```
+    http://localhost:3000
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Future Plans
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+-   Add support for video recording.
+-   Include options for recording only audio
+
+## 🌟 Support Us
+
+If you find this helpful or valuable, please consider 🌟 starring the repository. It helps us gain visibility and encourages further development. We appreciate your support!
+
+## 🤝 Contributing
+
+Contributions are most welcomed! If you find any bugs or issues in the project, please report them in the issues section of the repository. If you'd like to add new features or enhance existing ones, feel free to submit a pull request.
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## 🤝 Acknowledgements
+
+This project was inspired by an older repository built with traditional web technologies (Pug, CSS, JavaScript). While the repository served as inspiration, this project has been rebuilt from scratch using modern technologies, including Next.js, React.js, and Tailwind CSS.
+
+## 🤝 Acknowledgements
+
+This project was inspired by an repository named [screenREC](https://github.com/heysagnik/screenREC) built with traditional web technologies (Pug, CSS, JavaScript). While the old repository served as inspiration, this project has been rebuilt from scratch using modern technologies, including Next.js, React.js, and Tailwind CSS.
+
+## 📧 Contact Information
+
+For questions or inquiries, please contact [Sahil Atahar](mailto:sahilatahar@gmail.com).
