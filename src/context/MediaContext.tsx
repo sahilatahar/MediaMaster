@@ -34,6 +34,7 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 	const [recordedChunks, setRecordedChunks] = useState<Blob[]>([])
 	const [mediaUrl, setMediaUrl] = useState<string>("")
 	const recordingFinish = useRef<boolean>(false)
+	const [recordingPaused, setRecordingPaused] = useState<boolean>(false)
 
 	const openMediaDevices = async (constraints: any) => {
 		try {
@@ -90,6 +91,18 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 		}
 	}
 
+	const pauseRecording = () => {
+		if (mediaRecorder == null) return
+		mediaRecorder.pause()
+		setRecordingPaused(true)
+	}
+
+	const resumeRecording = () => {
+		if (mediaRecorder == null) return
+		mediaRecorder.resume()
+		setRecordingPaused(false)
+	}
+
 	const stopRecording = useCallback(() => {
 		if (mediaRecorder == null || recordingFinish.current) return
 
@@ -135,6 +148,9 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 				selectedOption,
 				setSelectedOption,
 				mediaUrl,
+				pauseRecording,
+				resumeRecording,
+				recordingPaused,
 			}}
 		>
 			{children}

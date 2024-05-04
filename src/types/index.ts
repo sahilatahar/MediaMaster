@@ -6,4 +6,7 @@ export interface MediaContextProps {
 	selectedOption: string
 	setSelectedOption: (option: string) => void
 	mediaUrl: string
+	pauseRecording: () => void
+	resumeRecording: () => void
+	recordingPaused: boolean
 }

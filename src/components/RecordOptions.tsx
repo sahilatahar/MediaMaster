@@ -65,7 +65,7 @@ const RecordOptions: FC = () => {
 				</div>
 			</div>
 			<button
-				className="bg-primary font-2xl w-full py-4 font-bold text-white rounded-xl"
+				className="bg-primary font-2xl w-full py-3 font-bold text-white rounded-xl"
 				onClick={startRecording}
 			>
 				Start Recording
