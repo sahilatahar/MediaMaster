@@ -27,8 +27,6 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 }): ReactElement => {
 	const [recording, setRecording] = useState<boolean>(false)
 	const [stream, setStream] = useState<MediaStream | null>(null)
-	const [screenStream, setScreenStream] = useState<MediaStream | null>(null)
-	const [userStream, setUserStream] = useState<MediaStream | null>(null)
 	const [selectedOption, setSelectedOption] = useState<string>("")
 	const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
 		null
@@ -107,11 +105,12 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 
 		const screenStream = await openMediaDevices(constraints)
 
+		if (screenStream == null) return
+
 		if (selectedOption === "screenWithAudioAndMic") {
 			const userStream = await openUserMedia({ audio: true })
-			if (userStream != null) {
-				setUserStream(userStream)
 
+			if (userStream != null) {
 				if (screenStream == null) return
 
 				// Merge screen and mic audio tracks
@@ -133,9 +132,10 @@ export const MediaProvider: React.FC<{ children: ReactNode }> = ({
 				// Set the new stream which contains both screen and mic audio
 				setStream(stream)
 			}
-		} else {
-			// Set the screen stream if no mic audio is required
-			setScreenStream(screenStream)
+		}
+
+		if (stream == null) {
+			// Set the screen stream if no mic audio is needed
 			setStream(screenStream)
 		}
 
